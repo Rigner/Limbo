@@ -6,6 +6,7 @@ import net.rigner.limbo.packets.Status;
 import net.rigner.limbo.packets.in.PacketIn;
 import net.rigner.limbo.packets.out.PacketOut;
 import net.rigner.limbo.packets.protocols.HandshakeProtocol;
+import net.rigner.limbo.packets.protocols.Protocol107;
 import net.rigner.limbo.packets.protocols.Protocol47;
 import net.rigner.limbo.world.World;
 
@@ -49,6 +50,7 @@ public class NetworkManager
 
         this.protocols.add(new HandshakeProtocol(this));
         this.protocols.add(new Protocol47(this));
+        this.protocols.add(new Protocol107(this));
     }
 
     void bind(String ip, short port) throws IOException
@@ -224,7 +226,8 @@ public class NetworkManager
 
     public void disconnect(PlayerConnection playerConnection, String message)
     {
-        Limbo.LOGGER.info(playerConnection.getInetAddress().getHostString() + (playerConnection.getUserName().isEmpty() ? "" : playerConnection.getUserName()) + " disconnected" + (message == null ? "" : " : " + message));
+        if (playerConnection.getStatus() != Status.STATUS && playerConnection.getStatus() != Status.HANDSHAKE)
+            Limbo.LOGGER.info(playerConnection.getInetAddress().getHostString() + (playerConnection.getUserName().isEmpty() ? "" : " (" + playerConnection.getUserName() + ")") + " disconnected" + (message == null ? "" : " : " + message));
         this.playerConnections.remove(playerConnection);
         if (message != null)
             playerConnection.getProtocol().disconnect(playerConnection, message);

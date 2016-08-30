@@ -65,6 +65,7 @@ public class PacketInHandshake implements PacketIn
             playerConnection.setInetAddress(new InetSocketAddress(data[1], playerConnection.getInetAddress().getPort()));
             playerConnection.setUuid(UUIDConverter.fromString(data[2]));
         }
-        Limbo.LOGGER.info("New connection from " + playerConnection.getInetAddress().getHostString());
+        if (status == Status.LOGIN)
+            Limbo.LOGGER.info("New connection from " + playerConnection.getInetAddress().getHostString());
     }
 }
