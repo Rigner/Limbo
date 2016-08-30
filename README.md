@@ -15,6 +15,7 @@ Config file to modify server properties.
 ## Supported protocols
 
 - 1.8.X (47)
+- 1.9 (107)
 
 More protocols will be implemented soon.
 
