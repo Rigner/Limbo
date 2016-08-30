@@ -1,0 +1,5 @@
+target
+.idea
+*.iml
+world.schematic
+server.properties
