@@ -30,7 +30,7 @@ public class Protocol107 extends AbstractProtocol
 
         this.registerPacketOut(Status.PLAY, 0x1A, PacketOutDisconnect.class);
         this.registerPacketOut(Status.PLAY, 0x1F, PacketPlayOutKeepAlive47.class);
-        this.registerPacketOut(Status.PLAY, 0x20, PacketPlayOutChunkData47.class);
+        this.registerPacketOut(Status.PLAY, 0x20, PacketPlayOutChunkData107.class);
         this.registerPacketOut(Status.PLAY, 0x23, PacketPlayOutJoinGame47.class);
         this.registerPacketOut(Status.PLAY, 0x2E, PacketPlayOutPlayerPositionAndLook107.class);
 
@@ -99,7 +99,7 @@ public class Protocol107 extends AbstractProtocol
     @Override
     public void sendChunk(PlayerConnection playerConnection, Chunk chunk)
     {
-        //this.networkManager.sendPacket(playerConnection, new PacketPlayOutChunkData47(chunk));
+        this.networkManager.sendPacket(playerConnection, new PacketPlayOutChunkData107(chunk));
     }
 
     @Override
