@@ -7,6 +7,7 @@ import net.rigner.limbo.packets.in.PacketIn;
 import net.rigner.limbo.packets.out.PacketOut;
 import net.rigner.limbo.packets.protocols.HandshakeProtocol;
 import net.rigner.limbo.packets.protocols.Protocol107;
+import net.rigner.limbo.packets.protocols.Protocol108;
 import net.rigner.limbo.packets.protocols.Protocol47;
 import net.rigner.limbo.world.World;
 
@@ -51,6 +52,7 @@ public class NetworkManager
         this.protocols.add(new HandshakeProtocol(this));
         this.protocols.add(new Protocol47(this));
         this.protocols.add(new Protocol107(this));
+        this.protocols.add(new Protocol108(this));
     }
 
     void bind(String ip, short port) throws IOException
