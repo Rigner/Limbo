@@ -33,6 +33,7 @@ public class Protocol107 extends AbstractProtocol
         this.registerPacketOut(Status.PLAY, 0x20, PacketPlayOutChunkData107.class);
         this.registerPacketOut(Status.PLAY, 0x23, PacketPlayOutJoinGame47.class);
         this.registerPacketOut(Status.PLAY, 0x2E, PacketPlayOutPlayerPositionAndLook107.class);
+        this.registerPacketOut(Status.PLAY, 0x46, PacketPlayOutUpdateSign.class);
 
         this.registerPacketIn(Status.PLAY, 0x00, PacketInIgnored.class);//Teleport confirm
         this.registerPacketIn(Status.PLAY, 0x01, PacketInIgnored.class);//Tab complete

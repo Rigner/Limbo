@@ -2,6 +2,7 @@ package net.rigner.limbo.world.nbt;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,7 +15,7 @@ public class CompoundTag extends NamedTag
     public static final byte ID = 10;
     private final Map<String, NamedTag> tags;
 
-    public CompoundTag()
+    CompoundTag()
     {
         this.tags = new HashMap<>();
     }
@@ -23,9 +24,8 @@ public class CompoundTag extends NamedTag
     {
         super.read(inputStream, readName);
         NBTTag tag;
-        while (!((tag = NBTTag.readTag(inputStream)) instanceof EndTag)) {
+        while (!((tag = NBTTag.readTag(inputStream)) instanceof EndTag))
             put((NamedTag)tag);
-        }
     }
 
     public NamedTag get(String name)
@@ -33,11 +33,10 @@ public class CompoundTag extends NamedTag
         return this.tags.get(name);
     }
 
-    public void put(NamedTag tag)
+    private void put(NamedTag tag)
     {
-        if (tag != null) {
+        if (tag != null)
             this.tags.put(tag.getName(), tag);
-        }
     }
 
     public byte getId()
@@ -48,5 +47,13 @@ public class CompoundTag extends NamedTag
     public String toString()
     {
         return this.tags.toString();
+    }
+
+    @Override
+    public void write(OutputStream outputStream, boolean writeName) throws IOException
+    {
+        super.write(outputStream);
+        for (NamedTag namedTag : this.tags.values())
+            namedTag.write(outputStream, writeName);
     }
 }

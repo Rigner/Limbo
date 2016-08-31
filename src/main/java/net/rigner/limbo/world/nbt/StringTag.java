@@ -2,6 +2,7 @@ package net.rigner.limbo.world.nbt;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 
 /**
  * Created by Rigner on 30/08/16 for project Limbo.
@@ -31,5 +32,12 @@ public class StringTag extends NamedTag
     public byte getId()
     {
         return 8;
+    }
+
+    @Override
+    public void write(OutputStream outputStream, boolean writeName) throws IOException
+    {
+        super.write(outputStream, writeName);
+        this.writeString(outputStream, this.value);
     }
 }

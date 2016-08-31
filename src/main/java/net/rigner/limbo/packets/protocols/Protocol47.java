@@ -32,6 +32,7 @@ public class Protocol47 extends AbstractProtocol
         this.registerPacketOut(Status.PLAY, 0x01, PacketPlayOutJoinGame47.class);
         this.registerPacketOut(Status.PLAY, 0x08, PacketPlayOutPlayerPositionAndLook47.class);
         this.registerPacketOut(Status.PLAY, 0x21, PacketPlayOutChunkData47.class);
+        this.registerPacketOut(Status.PLAY, 0x33, PacketPlayOutUpdateSign.class);
         this.registerPacketOut(Status.PLAY, 0x40, PacketOutDisconnect.class);
 
         this.registerPacketIn(Status.PLAY, 0x00, PacketPlayInKeepAlive47.class);

@@ -34,12 +34,18 @@ public abstract class AbstractProtocol
 
     protected void registerPacketIn(Status status, int id, Class<? extends PacketIn> packetClass)
     {
-        this.registryIn.get(status).put(id, packetClass);
+        if (packetClass == null)
+            this.registryIn.get(status).remove(id);
+        else
+            this.registryIn.get(status).put(id, packetClass);
     }
 
     protected void registerPacketOut(Status status, int id, Class<? extends PacketOut> packetClass)
     {
-        this.registryOut.get(status).put(id, packetClass);
+        if (packetClass == null)
+            this.registryOut.get(status).remove(id);
+        else
+            this.registryOut.get(status).put(id, packetClass);
     }
 
     public abstract void sendKeepAlive(PlayerConnection playerConnection, int id);

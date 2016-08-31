@@ -2,6 +2,7 @@ package net.rigner.limbo.world.nbt;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 
 /**
  * Created by Rigner on 30/08/16 for project Limbo.
@@ -19,11 +20,18 @@ public abstract class NamedTag extends NBTTag
     public void read(InputStream inputStream, boolean readName) throws IOException
     {
         if (readName)
-            this.name = readString(inputStream);
+            this.name = this.readString(inputStream);
     }
 
-    public void write()
+    public void write(OutputStream outputStream) throws IOException
     {
+        this.write(outputStream, true);
+    }
+
+    public void write(OutputStream outputStream, boolean writeName) throws IOException
+    {
+        if (writeName)
+            this.writeString(outputStream, this.name);
     }
 
     String getName()

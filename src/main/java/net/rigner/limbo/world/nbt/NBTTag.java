@@ -3,6 +3,7 @@ package net.rigner.limbo.world.nbt;
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 
 /**
  * Created by Rigner on 30/08/16 for project Limbo.
@@ -14,7 +15,7 @@ public abstract class NBTTag
 
     public abstract void read(InputStream paramInputStream) throws IOException;
 
-    public abstract void write();
+    public abstract void write(OutputStream outputStream) throws IOException;
 
     byte readByte(InputStream inputStream) throws IOException
     {
@@ -56,6 +57,44 @@ public abstract class NBTTag
         byte[] bytes = new byte[this.readShort(inputStream)];
         this.readByteArray(inputStream, bytes);
         return new String(bytes);
+    }
+
+    void writeByteArray(OutputStream outputStream, byte[] bytes) throws IOException
+    {
+        for (byte b : bytes)
+            this.writeByte(outputStream, b);
+    }
+
+    void writeByte(OutputStream outputStream, byte value) throws IOException
+    {
+        outputStream.write(value);
+    }
+
+    void writeInt(OutputStream outputStream, int value) throws IOException
+    {
+        this.writeByte(outputStream, (byte) (value / 256 / 256 / 256));
+        this.writeByte(outputStream, (byte) (value / 256 / 256 % 256));
+        this.writeByte(outputStream, (byte) (value / 256 % 256));
+        this.writeByte(outputStream, (byte) (value % 256));
+    }
+
+    void writeLong(OutputStream outputStream, long value) throws IOException
+    {
+        this.writeInt(outputStream, (int)(value >> 32));
+        this.writeInt(outputStream, (int)(value));
+    }
+
+    void writeShort(OutputStream outputStream, short value) throws IOException
+    {
+        this.writeByte(outputStream, (byte) (value / 256));
+        this.writeByte(outputStream, (byte) (value % 256));
+    }
+
+    void writeString(OutputStream outputStream, String string) throws IOException
+    {
+        byte[] bytes = string.getBytes();
+        this.writeShort(outputStream, (short)bytes.length);
+        this.writeByteArray(outputStream, bytes);
     }
 
     public ShortTag toShortTag()
@@ -145,5 +184,12 @@ public abstract class NBTTag
         if (readTag)
             tag.read(inputStream);
         return tag;
+    }
+
+    public static void writeTag(OutputStream outputStream, NBTTag nbtTag, boolean writeTag) throws IOException
+    {
+        outputStream.write(nbtTag.getId());
+        if (writeTag)
+            nbtTag.write(outputStream);
     }
 }

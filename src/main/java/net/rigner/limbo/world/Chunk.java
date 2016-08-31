@@ -107,4 +107,9 @@ public class Chunk
     {
         this.tileEntities.add(tileEntity);
     }
+
+    public List<TileEntity> getTileEntities()
+    {
+        return this.tileEntities;
+    }
 }
