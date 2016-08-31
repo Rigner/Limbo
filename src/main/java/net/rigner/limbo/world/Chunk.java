@@ -83,9 +83,6 @@ public class Chunk
 
     public byte[] getMapWithPalette() throws IOException
     {
-        Limbo.LOGGER.info(0 + " : " + this.mapWithPalette[0][0]);
-        Limbo.LOGGER.info(1 + " : " + this.mapWithPalette[0][1]);
-        Limbo.LOGGER.info(2 + " : " + this.mapWithPalette[0][2]);
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         PacketSerializer packetSerializer = new PacketSerializer(byteArrayOutputStream);
         for (int i = 0; i < 16; ++i)
