@@ -18,6 +18,7 @@ public class Protocol110 extends Protocol108
     {
         super(networkManager);
 
+        this.registerPacketOut(Status.PLAY, 0x09, PacketPlayOutUpdateBlockEntity110.class);
         this.registerPacketOut(Status.PLAY, 0x20, PacketPlayOutChunkData110.class);
         this.registerPacketOut(Status.PLAY, 0x46, null);
     }
