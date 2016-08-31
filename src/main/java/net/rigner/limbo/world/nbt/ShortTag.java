@@ -8,6 +8,7 @@ import java.io.OutputStream;
  * Created by Rigner on 30/08/16 for project Limbo.
  * All rights reserved.
  */
+@SuppressWarnings("WeakerAccess")
 public class ShortTag extends NamedTag
 {
     public static final byte ID = 2;

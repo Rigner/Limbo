@@ -26,6 +26,7 @@ public class PacketPlayOutPlayerPositionAndLook107 implements PacketOut
         this.yaw = yaw;
         this.pitch = pitch;
         this.flags = flags;
+        this.teleportId = teleportId;
     }
 
     @Override

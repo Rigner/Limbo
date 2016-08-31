@@ -1,6 +1,5 @@
 package net.rigner.limbo.world;
 
-import net.rigner.limbo.Limbo;
 import net.rigner.limbo.PlayerConnection;
 import net.rigner.limbo.packets.PacketSerializer;
 
@@ -106,10 +105,5 @@ public class Chunk
     void addTileEntity(TileEntity tileEntity)
     {
         this.tileEntities.add(tileEntity);
-    }
-
-    public List<TileEntity> getTileEntities()
-    {
-        return this.tileEntities;
     }
 }
