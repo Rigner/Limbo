@@ -28,7 +28,7 @@ public class PlayerConnection
     PlayerConnection(NetworkManager networkManager, SocketChannel socket) throws IOException
     {
         this.socket = socket;
-        this.byteBuffer = ByteBuffer.allocate(1024);
+        this.byteBuffer = ByteBuffer.allocate(NetworkManager.MAX_BUFFER_SIZE);
         this.protocol = networkManager.getProtocolByVersionId(-1);
         this.status = Status.HANDSHAKE;
         this.userName = "";

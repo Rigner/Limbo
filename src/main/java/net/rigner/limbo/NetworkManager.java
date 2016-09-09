@@ -26,6 +26,8 @@ import java.util.logging.Level;
  */
 public class NetworkManager
 {
+    static final int MAX_BUFFER_SIZE = 4096;
+
     private LimboConfiguration limboConfiguration;
     private World world;
     private Selector selector;
@@ -125,6 +127,8 @@ public class NetworkManager
             try
             {
                 int s = packetSerializer.readVarInt();
+                if (s > NetworkManager.MAX_BUFFER_SIZE)
+                    this.disconnect(playerConnection, "Invalid packet, too big");
                 data = new byte[s];
                 for (int i = 0; i < s; i++)
                     data[i] = packetSerializer.readByte();
@@ -136,7 +140,7 @@ public class NetworkManager
                 return ;
             }
             size -= packetSerializer.available();
-            ByteBuffer tmp = ByteBuffer.allocate(1024);
+            ByteBuffer tmp = ByteBuffer.allocate(NetworkManager.MAX_BUFFER_SIZE);
             for (int i = size; i < byteBuffer.position(); i++)
                 tmp.put(byteBuffer.get(i));
             playerConnection.setByteBuffer(tmp);

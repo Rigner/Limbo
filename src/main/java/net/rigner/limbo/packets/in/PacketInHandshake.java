@@ -59,13 +59,15 @@ public class PacketInHandshake implements PacketIn
         playerConnection.setStatus(status);
 
         String[] data = this.serverAddress.split("\00");
+        InetSocketAddress bungeeAddress = null;
         if (data.length == 3 || data.length == 4)
         {
             this.serverAddress = data[0];
+            bungeeAddress = playerConnection.getInetAddress();
             playerConnection.setInetAddress(new InetSocketAddress(data[1], playerConnection.getInetAddress().getPort()));
             playerConnection.setUuid(UUIDConverter.fromString(data[2]));
         }
         if (status == Status.LOGIN)
-            Limbo.LOGGER.info("New connection from " + playerConnection.getInetAddress().getHostString());
+            Limbo.LOGGER.info("New connection from " + playerConnection.getInetAddress().getHostString() + (bungeeAddress == null ? "" : " (via BungeeCord " + bungeeAddress.getHostString() + ")"));
     }
 }
