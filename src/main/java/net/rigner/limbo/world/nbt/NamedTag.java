@@ -30,7 +30,7 @@ public abstract class NamedTag extends NBTTag
 
     public void write(OutputStream outputStream, boolean writeName) throws IOException
     {
-        if (writeName)
+        if (writeName && this.name != null)
             this.writeString(outputStream, this.name);
     }
 
