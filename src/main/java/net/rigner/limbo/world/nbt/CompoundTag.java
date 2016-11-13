@@ -52,7 +52,7 @@ public class CompoundTag extends NamedTag
     @Override
     public void write(OutputStream outputStream, boolean writeName) throws IOException
     {
-        super.write(outputStream);
+        super.write(outputStream, writeName);
         for (NamedTag namedTag : this.tags.values())
             namedTag.write(outputStream, writeName);
     }
