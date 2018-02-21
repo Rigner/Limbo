@@ -55,7 +55,7 @@ public class Limbo
         try
         {
             this.networkManager.bind(this.limboConfiguration.getIp(), this.limboConfiguration.getPort());
-            Limbo.LOGGER.info("Listening on port 25565");
+            Limbo.LOGGER.info("Listening on port " + this.limboConfiguration.getPort());
             while (this.run)
                 this.networkManager.select();
         }
