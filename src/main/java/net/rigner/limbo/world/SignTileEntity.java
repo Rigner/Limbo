@@ -1,6 +1,7 @@
 package net.rigner.limbo.world;
 
 import net.rigner.limbo.world.nbt.CompoundTag;
+import net.rigner.limbo.world.nbt.NamedTag;
 
 /**
  * Created by Rigner on 30/08/16 for project Limbo.
@@ -16,10 +17,16 @@ public class SignTileEntity extends TileEntity
     SignTileEntity(CompoundTag data)
     {
         super(data);
-        this.text1 = data.get("Text1").toStringTag().getValue();
-        this.text2 = data.get("Text2").toStringTag().getValue();
-        this.text3 = data.get("Text3").toStringTag().getValue();
-        this.text4 = data.get("Text4").toStringTag().getValue();
+
+        NamedTag data1 = data.get("Text1");
+        NamedTag data2 = data.get("Text2");
+        NamedTag data3 = data.get("Text3");
+        NamedTag data4 = data.get("Text4");
+
+        this.text1 = data1 == null ? "{}" : data1.toStringTag().getValue();
+        this.text2 = data2 == null ? "{}" : data2.toStringTag().getValue();
+        this.text3 = data3 == null ? "{}" : data3.toStringTag().getValue();
+        this.text4 = data4 == null ? "{}" : data4.toStringTag().getValue();
     }
 
     public String getText1()
