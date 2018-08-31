@@ -1,8 +1,8 @@
 package net.rigner.limbo.packets.in;
 
 import net.rigner.limbo.NetworkManager;
-import net.rigner.limbo.packets.PacketSerializer;
 import net.rigner.limbo.PlayerConnection;
+import net.rigner.limbo.packets.PacketSerializer;
 import net.rigner.limbo.packets.out.PacketStatusOutResponse;
 
 import java.io.IOException;

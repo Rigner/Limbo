@@ -58,6 +58,6 @@ public class HandshakeProtocol extends AbstractProtocol
     @Override
     public int[] getVersions()
     {
-        return new int[]{-1};
+        return new int[]{ -1 };
     }
 }

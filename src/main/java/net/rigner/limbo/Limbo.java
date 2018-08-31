@@ -8,7 +8,11 @@ import java.io.FileInputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Date;
-import java.util.logging.*;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Formatter;
+import java.util.logging.Level;
+import java.util.logging.LogRecord;
+import java.util.logging.Logger;
 import java.util.zip.GZIPInputStream;
 
 /**
@@ -29,6 +33,24 @@ public class Limbo
         this.limboConfiguration = limboConfiguration;
     }
 
+    public static void main(String[] args)
+    {
+        Limbo.LOGGER.setUseParentHandlers(false);
+        Limbo.LOGGER.addHandler(new ConsoleHandler());
+        Limbo.LOGGER.getHandlers()[0].setFormatter(new LogFormatter());
+
+        LimboConfiguration limboConfiguration = LimboConfiguration.load();
+        if (limboConfiguration == null)
+            return;
+        Limbo limbo = new Limbo(limboConfiguration);
+        limbo.loadWorld(limboConfiguration.getSchematicFile());
+        if (limbo.world == null)
+            return;
+        Runtime.getRuntime().addShutdownHook(new Thread(limbo::stop));
+        limbo.run();
+        System.exit(0);
+    }
+
     private void loadWorld(String fileName)
     {
         Limbo.LOGGER.info("Loading schematic from " + fileName);
@@ -42,7 +64,7 @@ public class Limbo
             Limbo.LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
             Limbo.LOGGER.info("World loading failed");
             this.world = null;
-            return ;
+            return;
         }
         Limbo.LOGGER.info("World loaded");
     }
@@ -69,24 +91,6 @@ public class Limbo
     {
         this.run = false;
         this.networkManager.stop();
-    }
-
-    public static void main(String[] args)
-    {
-        Limbo.LOGGER.setUseParentHandlers(false);
-        Limbo.LOGGER.addHandler(new ConsoleHandler());
-        Limbo.LOGGER.getHandlers()[0].setFormatter(new LogFormatter());
-
-        LimboConfiguration limboConfiguration = LimboConfiguration.load();
-        if (limboConfiguration == null)
-            return ;
-        Limbo limbo = new Limbo(limboConfiguration);
-        limbo.loadWorld(limboConfiguration.getSchematicFile());
-        if (limbo.world == null)
-            return ;
-        Runtime.getRuntime().addShutdownHook(new Thread(limbo::stop));
-        limbo.run();
-        System.exit(0);
     }
 
     private static class LogFormatter extends Formatter

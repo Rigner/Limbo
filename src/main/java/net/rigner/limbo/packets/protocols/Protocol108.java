@@ -27,6 +27,6 @@ public class Protocol108 extends Protocol107
     @Override
     public int[] getVersions()
     {
-        return new int[]{108, 109};
+        return new int[]{ 108, 109 };
     }
 }

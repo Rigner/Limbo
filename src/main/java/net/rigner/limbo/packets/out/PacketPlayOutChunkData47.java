@@ -23,7 +23,7 @@ public class PacketPlayOutChunkData47 implements PacketOut
         packetSerializer.writeInt(this.chunk.getX());
         packetSerializer.writeInt(this.chunk.getZ());
         packetSerializer.writeBoolean(true);
-        packetSerializer.writeShort((short)65535);
+        packetSerializer.writeShort((short) 65535);
         packetSerializer.writeByteArray(this.chunk.getMap());
     }
 }

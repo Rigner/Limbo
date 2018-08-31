@@ -42,11 +42,11 @@ public class LimboConfiguration
             properties.load(new FileInputStream(file));
             LimboConfiguration limboConfiguration = new LimboConfiguration();
             limboConfiguration.maxSlots = LimboConfiguration.getInt(properties, "maxSlots", -1);
-            limboConfiguration.port = (short)LimboConfiguration.getInt(properties, "server-port", 25565);
+            limboConfiguration.port = (short) LimboConfiguration.getInt(properties, "server-port", 25565);
             limboConfiguration.ip = LimboConfiguration.getString(properties, "server-ip", "localhost");
             limboConfiguration.schematicFile = LimboConfiguration.getString(properties, "schematic-file", "world.schematic");
-            limboConfiguration.dimension = (byte)LimboConfiguration.getInt(properties, "dimension", 1);
-            limboConfiguration.gameMode = (byte)LimboConfiguration.getInt(properties, "gamemode", 2);
+            limboConfiguration.dimension = (byte) LimboConfiguration.getInt(properties, "dimension", 1);
+            limboConfiguration.gameMode = (byte) LimboConfiguration.getInt(properties, "gamemode", 2);
             limboConfiguration.reducedDebugInfo = Boolean.parseBoolean(LimboConfiguration.getString(properties, "reduceddebuginfo", "true"));
 
             String[] split = LimboConfiguration.getString(properties, "spawn", "0.5;64;0.5;0;0").split(";");

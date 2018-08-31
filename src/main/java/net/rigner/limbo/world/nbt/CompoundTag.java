@@ -25,7 +25,7 @@ public class CompoundTag extends NamedTag
         super.read(inputStream, readName);
         NBTTag tag;
         while (!((tag = NBTTag.readTag(inputStream)) instanceof EndTag))
-            put((NamedTag)tag);
+            put((NamedTag) tag);
     }
 
     public NamedTag get(String name)

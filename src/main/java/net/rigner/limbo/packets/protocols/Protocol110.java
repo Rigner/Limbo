@@ -26,13 +26,13 @@ public class Protocol110 extends Protocol108
     @Override
     public int[] getVersions()
     {
-        return new int[]{110};
+        return new int[]{ 110 };
     }
 
     @Override
     public void sendSign(PlayerConnection playerConnection, SignTileEntity signTileEntity)
     {
-        this.networkManager.sendPacket(playerConnection, new PacketPlayOutUpdateBlockEntity110(signTileEntity, (byte)9));
+        this.networkManager.sendPacket(playerConnection, new PacketPlayOutUpdateBlockEntity110(signTileEntity, (byte) 9));
     }
 
     @Override

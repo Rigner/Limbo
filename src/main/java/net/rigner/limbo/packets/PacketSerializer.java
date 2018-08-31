@@ -76,7 +76,7 @@ public class PacketSerializer
     public byte readByte() throws IOException
     {
         this.ensureInputStream();
-        return (byte)this.inputStream.read();
+        return (byte) this.inputStream.read();
     }
 
     public short readShort() throws IOException

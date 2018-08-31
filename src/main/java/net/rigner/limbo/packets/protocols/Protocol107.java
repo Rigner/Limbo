@@ -4,8 +4,20 @@ import net.rigner.limbo.NetworkManager;
 import net.rigner.limbo.PlayerConnection;
 import net.rigner.limbo.packets.AbstractProtocol;
 import net.rigner.limbo.packets.Status;
-import net.rigner.limbo.packets.in.*;
-import net.rigner.limbo.packets.out.*;
+import net.rigner.limbo.packets.in.PacketInIgnored;
+import net.rigner.limbo.packets.in.PacketLoginInStart;
+import net.rigner.limbo.packets.in.PacketPlayInKeepAlive47;
+import net.rigner.limbo.packets.in.PacketStatusInPing;
+import net.rigner.limbo.packets.in.PacketStatusInRequest;
+import net.rigner.limbo.packets.out.PacketLoginOutSuccess;
+import net.rigner.limbo.packets.out.PacketOutDisconnect;
+import net.rigner.limbo.packets.out.PacketPlayOutChunkData107;
+import net.rigner.limbo.packets.out.PacketPlayOutJoinGame47;
+import net.rigner.limbo.packets.out.PacketPlayOutKeepAlive47;
+import net.rigner.limbo.packets.out.PacketPlayOutPlayerPositionAndLook107;
+import net.rigner.limbo.packets.out.PacketPlayOutUpdateSign;
+import net.rigner.limbo.packets.out.PacketStatusOutPong;
+import net.rigner.limbo.packets.out.PacketStatusOutResponse;
 import net.rigner.limbo.world.Chunk;
 import net.rigner.limbo.world.SignTileEntity;
 
@@ -70,7 +82,7 @@ public class Protocol107 extends AbstractProtocol
     @Override
     public int[] getVersions()
     {
-        return new int[]{107};
+        return new int[]{ 107 };
     }
 
     @Override
@@ -82,13 +94,13 @@ public class Protocol107 extends AbstractProtocol
     @Override
     public void sendJoinGame(PlayerConnection playerConnection, int entityId, byte gameMode, int dimension, byte difficulty, byte maxPlayers, String levelType, boolean debugInfo)
     {
-        this.networkManager.sendPacket(playerConnection, new PacketPlayOutJoinGame47(entityId, gameMode, (byte)dimension, difficulty, maxPlayers, levelType, debugInfo));
+        this.networkManager.sendPacket(playerConnection, new PacketPlayOutJoinGame47(entityId, gameMode, (byte) dimension, difficulty, maxPlayers, levelType, debugInfo));
     }
 
     @Override
     public void sendPosition(PlayerConnection playerConnection, double x, double y, double z, float yaw, float pitch)
     {
-        this.networkManager.sendPacket(playerConnection, new PacketPlayOutPlayerPositionAndLook107(x, y, z, yaw, pitch, (byte)0, 0));
+        this.networkManager.sendPacket(playerConnection, new PacketPlayOutPlayerPositionAndLook107(x, y, z, yaw, pitch, (byte) 0, 0));
     }
 
     @Override

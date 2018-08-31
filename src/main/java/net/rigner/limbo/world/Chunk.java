@@ -29,9 +29,9 @@ public class Chunk
         this.map = new byte[Chunk.CHUNK_SIZE];
         this.mapWithPalette = new long[16][832];
         this.tileEntities = new ArrayList<>();
-        Arrays.fill(this.map, (byte)0);
+        Arrays.fill(this.map, (byte) 0);
         for (long[] tab : this.mapWithPalette)
-            Arrays.fill(tab, (long)0);
+            Arrays.fill(tab, (long) 0);
     }
 
     void setBlock(int x, int y, int z, int id, int meta)
@@ -92,7 +92,7 @@ public class Chunk
             for (long value : this.mapWithPalette[i])
                 packetSerializer.writeLong(value);
             for (int j = 0; j < 2048; ++j)
-                packetSerializer.writeByte((byte)0);
+                packetSerializer.writeByte((byte) 0);
         }
         return byteArrayOutputStream.toByteArray();
     }

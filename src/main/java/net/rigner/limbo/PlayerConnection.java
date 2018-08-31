@@ -35,7 +35,7 @@ public class PlayerConnection
         this.protocolId = -1;
         this.lastKeepAlive = System.currentTimeMillis();
         this.uuid = UUID.randomUUID();
-        this.inetAddress = (InetSocketAddress)socket.getRemoteAddress();
+        this.inetAddress = (InetSocketAddress) socket.getRemoteAddress();
     }
 
     SocketChannel getSocket()
@@ -46,6 +46,11 @@ public class PlayerConnection
     ByteBuffer getByteBuffer()
     {
         return byteBuffer;
+    }
+
+    void setByteBuffer(ByteBuffer byteBuffer)
+    {
+        this.byteBuffer = byteBuffer;
     }
 
     public AbstractProtocol getProtocol()
@@ -68,11 +73,6 @@ public class PlayerConnection
         this.status = status;
     }
 
-    void setByteBuffer(ByteBuffer byteBuffer)
-    {
-        this.byteBuffer = byteBuffer;
-    }
-
     String getUserName()
     {
         return this.userName;
@@ -83,14 +83,14 @@ public class PlayerConnection
         this.userName = userName;
     }
 
-    public void setProtocolId(int protocolId)
-    {
-        this.protocolId = protocolId;
-    }
-
     public int getProtocolId()
     {
         return this.protocolId;
+    }
+
+    public void setProtocolId(int protocolId)
+    {
+        this.protocolId = protocolId;
     }
 
     long getLastKeepAlive()

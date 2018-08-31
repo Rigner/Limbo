@@ -11,127 +11,6 @@ import java.io.OutputStream;
  */
 public abstract class NBTTag
 {
-    public abstract byte getId();
-
-    public abstract void read(InputStream paramInputStream) throws IOException;
-
-    public abstract void write(OutputStream outputStream) throws IOException;
-
-    byte readByte(InputStream inputStream) throws IOException
-    {
-        int value = inputStream.read();
-        if (value == -1)
-            throw new EOFException();
-        return (byte)value;
-    }
-
-    short readShort(InputStream inputStream) throws IOException
-    {
-        return (short)(this.readByte(inputStream) << 8 | this.readByte(inputStream) & 0xFF);
-    }
-
-    int readInt(InputStream inputStream) throws IOException
-    {
-        return this.readShort(inputStream) << 16 | this.readShort(inputStream) & 0xFFFF;
-    }
-
-    long readLong(InputStream inputStream) throws IOException
-    {
-        return (long)this.readInt(inputStream) << 32 | this.readInt(inputStream);
-    }
-
-    void readByteArray(InputStream inputStream, byte[] bytes) throws IOException
-    {
-        int read = 0;
-        while (read != bytes.length)
-        {
-            int count = inputStream.read(bytes, read, bytes.length - read);
-            if (count == 0)
-                throw new EOFException();
-            read += count;
-        }
-    }
-
-    String readString(InputStream inputStream) throws IOException
-    {
-        byte[] bytes = new byte[this.readShort(inputStream)];
-        this.readByteArray(inputStream, bytes);
-        return new String(bytes);
-    }
-
-    void writeByteArray(OutputStream outputStream, byte[] bytes) throws IOException
-    {
-        for (byte b : bytes)
-            this.writeByte(outputStream, b);
-    }
-
-    void writeByte(OutputStream outputStream, byte value) throws IOException
-    {
-        outputStream.write(value);
-    }
-
-    void writeInt(OutputStream outputStream, int value) throws IOException
-    {
-        this.writeByte(outputStream, (byte) (value / 256 / 256 / 256));
-        this.writeByte(outputStream, (byte) (value / 256 / 256 % 256));
-        this.writeByte(outputStream, (byte) (value / 256 % 256));
-        this.writeByte(outputStream, (byte) (value % 256));
-    }
-
-    void writeLong(OutputStream outputStream, long value) throws IOException
-    {
-        this.writeInt(outputStream, (int)(value >> 32));
-        this.writeInt(outputStream, (int)(value));
-    }
-
-    void writeShort(OutputStream outputStream, short value) throws IOException
-    {
-        this.writeByte(outputStream, (byte) (value / 256));
-        this.writeByte(outputStream, (byte) (value % 256));
-    }
-
-    void writeString(OutputStream outputStream, String string) throws IOException
-    {
-        byte[] bytes = string.getBytes();
-        this.writeShort(outputStream, (short)bytes.length);
-        this.writeByteArray(outputStream, bytes);
-    }
-
-    public ShortTag toShortTag()
-    {
-        if ((this instanceof ShortTag))
-            return (ShortTag)this;
-        throw new IllegalStateException(this.getClass() + " is not a short tag");
-    }
-
-    public ListTag toListTag()
-    {
-        if ((this instanceof ListTag))
-            return (ListTag)this;
-        throw new IllegalStateException(this.getClass() + " is not a list tag");
-    }
-
-    public IntTag toIntTag()
-    {
-        if ((this instanceof IntTag))
-            return (IntTag)this;
-        throw new IllegalStateException(this.getClass() + " is not a int tag");
-    }
-
-    public CompoundTag toCompoundTag()
-    {
-        if ((this instanceof CompoundTag))
-            return (CompoundTag)this;
-        throw new IllegalStateException(this.getClass() + " is not a compound tag");
-    }
-
-    public StringTag toStringTag()
-    {
-        if ((this instanceof StringTag))
-            return (StringTag)this;
-        throw new IllegalStateException(this.getClass() + " is not a string tag");
-    }
-
     public static NBTTag readTag(InputStream inputStream) throws IOException
     {
         int id = inputStream.read();
@@ -191,5 +70,126 @@ public abstract class NBTTag
         outputStream.write(nbtTag.getId());
         if (writeTag)
             nbtTag.write(outputStream);
+    }
+
+    public abstract byte getId();
+
+    public abstract void read(InputStream paramInputStream) throws IOException;
+
+    public abstract void write(OutputStream outputStream) throws IOException;
+
+    byte readByte(InputStream inputStream) throws IOException
+    {
+        int value = inputStream.read();
+        if (value == -1)
+            throw new EOFException();
+        return (byte) value;
+    }
+
+    short readShort(InputStream inputStream) throws IOException
+    {
+        return (short) (this.readByte(inputStream) << 8 | this.readByte(inputStream) & 0xFF);
+    }
+
+    int readInt(InputStream inputStream) throws IOException
+    {
+        return this.readShort(inputStream) << 16 | this.readShort(inputStream) & 0xFFFF;
+    }
+
+    long readLong(InputStream inputStream) throws IOException
+    {
+        return (long) this.readInt(inputStream) << 32 | this.readInt(inputStream);
+    }
+
+    void readByteArray(InputStream inputStream, byte[] bytes) throws IOException
+    {
+        int read = 0;
+        while (read != bytes.length)
+        {
+            int count = inputStream.read(bytes, read, bytes.length - read);
+            if (count == 0)
+                throw new EOFException();
+            read += count;
+        }
+    }
+
+    String readString(InputStream inputStream) throws IOException
+    {
+        byte[] bytes = new byte[this.readShort(inputStream)];
+        this.readByteArray(inputStream, bytes);
+        return new String(bytes);
+    }
+
+    void writeByteArray(OutputStream outputStream, byte[] bytes) throws IOException
+    {
+        for (byte b : bytes)
+            this.writeByte(outputStream, b);
+    }
+
+    void writeByte(OutputStream outputStream, byte value) throws IOException
+    {
+        outputStream.write(value);
+    }
+
+    void writeInt(OutputStream outputStream, int value) throws IOException
+    {
+        this.writeByte(outputStream, (byte) (value / 256 / 256 / 256));
+        this.writeByte(outputStream, (byte) (value / 256 / 256 % 256));
+        this.writeByte(outputStream, (byte) (value / 256 % 256));
+        this.writeByte(outputStream, (byte) (value % 256));
+    }
+
+    void writeLong(OutputStream outputStream, long value) throws IOException
+    {
+        this.writeInt(outputStream, (int) (value >> 32));
+        this.writeInt(outputStream, (int) (value));
+    }
+
+    void writeShort(OutputStream outputStream, short value) throws IOException
+    {
+        this.writeByte(outputStream, (byte) (value / 256));
+        this.writeByte(outputStream, (byte) (value % 256));
+    }
+
+    void writeString(OutputStream outputStream, String string) throws IOException
+    {
+        byte[] bytes = string.getBytes();
+        this.writeShort(outputStream, (short) bytes.length);
+        this.writeByteArray(outputStream, bytes);
+    }
+
+    public ShortTag toShortTag()
+    {
+        if ((this instanceof ShortTag))
+            return (ShortTag) this;
+        throw new IllegalStateException(this.getClass() + " is not a short tag");
+    }
+
+    public ListTag toListTag()
+    {
+        if ((this instanceof ListTag))
+            return (ListTag) this;
+        throw new IllegalStateException(this.getClass() + " is not a list tag");
+    }
+
+    public IntTag toIntTag()
+    {
+        if ((this instanceof IntTag))
+            return (IntTag) this;
+        throw new IllegalStateException(this.getClass() + " is not a int tag");
+    }
+
+    public CompoundTag toCompoundTag()
+    {
+        if ((this instanceof CompoundTag))
+            return (CompoundTag) this;
+        throw new IllegalStateException(this.getClass() + " is not a compound tag");
+    }
+
+    public StringTag toStringTag()
+    {
+        if ((this instanceof StringTag))
+            return (StringTag) this;
+        throw new IllegalStateException(this.getClass() + " is not a string tag");
     }
 }

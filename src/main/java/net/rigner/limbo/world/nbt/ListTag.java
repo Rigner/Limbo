@@ -25,8 +25,8 @@ public class ListTag extends NamedTag
             NBTTag tag = NBTTag.readTag(inputStream, this.id, false);
             if (!(tag instanceof NamedTag))
                 throw new IOException("END_TAG not allowed here");
-            ((NamedTag)tag).read(inputStream, false);
-            this.tags[i] = ((NamedTag)tag);
+            ((NamedTag) tag).read(inputStream, false);
+            this.tags[i] = ((NamedTag) tag);
         }
     }
 

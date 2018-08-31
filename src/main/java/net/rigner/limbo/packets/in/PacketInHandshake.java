@@ -2,9 +2,9 @@ package net.rigner.limbo.packets.in;
 
 import net.rigner.limbo.Limbo;
 import net.rigner.limbo.NetworkManager;
-import net.rigner.limbo.packets.PacketSerializer;
 import net.rigner.limbo.PlayerConnection;
 import net.rigner.limbo.packets.AbstractProtocol;
+import net.rigner.limbo.packets.PacketSerializer;
 import net.rigner.limbo.packets.Status;
 import net.rigner.limbo.util.UUIDConverter;
 
@@ -19,7 +19,7 @@ public class PacketInHandshake implements PacketIn
 {
     private int version;
     private String serverAddress;
-    @SuppressWarnings({"FieldCanBeLocal", "unused"})
+    @SuppressWarnings({ "FieldCanBeLocal", "unused" })
     private short serverPort;
     private int nextState;
 
@@ -40,19 +40,19 @@ public class PacketInHandshake implements PacketIn
         {
             Limbo.LOGGER.warning("Version " + this.version + " not supported");
             networkManager.disconnect(playerConnection, "Version " + this.version + " not supported");
-            return ;
+            return;
         }
         Status status = this.nextState == 1 ? Status.STATUS : this.nextState == 2 ? Status.LOGIN : null;
         if (status == null)
         {
             Limbo.LOGGER.warning("Received invalid status " + this.nextState);
             networkManager.disconnect(playerConnection, "State " + this.nextState + " incorrect");
-            return ;
+            return;
         }
         if (status == Status.LOGIN && networkManager.getLimboConfiguration().getMaxSlots() >= 0 && networkManager.getConnectedPlayers() >= networkManager.getLimboConfiguration().getMaxSlots())
         {
             networkManager.disconnect(playerConnection, "Server is full");
-            return ;
+            return;
         }
         playerConnection.setProtocol(abstractProtocol);
         playerConnection.setProtocolId(this.version);

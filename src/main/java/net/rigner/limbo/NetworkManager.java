@@ -5,7 +5,11 @@ import net.rigner.limbo.packets.PacketSerializer;
 import net.rigner.limbo.packets.Status;
 import net.rigner.limbo.packets.in.PacketIn;
 import net.rigner.limbo.packets.out.PacketOut;
-import net.rigner.limbo.packets.protocols.*;
+import net.rigner.limbo.packets.protocols.HandshakeProtocol;
+import net.rigner.limbo.packets.protocols.Protocol107;
+import net.rigner.limbo.packets.protocols.Protocol108;
+import net.rigner.limbo.packets.protocols.Protocol110;
+import net.rigner.limbo.packets.protocols.Protocol47;
 import net.rigner.limbo.world.World;
 
 import java.io.ByteArrayInputStream;
@@ -14,7 +18,11 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
-import java.nio.channels.*;
+import java.nio.channels.ClosedChannelException;
+import java.nio.channels.SelectionKey;
+import java.nio.channels.Selector;
+import java.nio.channels.ServerSocketChannel;
+import java.nio.channels.SocketChannel;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -81,12 +89,12 @@ public class NetworkManager
         int n = this.selector.select(time);
 
         if (n == 0)
-            return ;
+            return;
 
         for (SelectionKey key : this.selector.selectedKeys())
         {
             if (!key.isValid())
-                continue ;
+                continue;
 
             if (key.isAcceptable())
             {
@@ -100,7 +108,7 @@ public class NetworkManager
                 }
             }
             else if (key.isReadable())
-                this.readPacket((SocketChannel)key.channel());
+                this.readPacket((SocketChannel) key.channel());
         }
         this.selector.selectedKeys().clear();
     }
@@ -111,7 +119,7 @@ public class NetworkManager
         if (playerConnection == null)
         {
             Limbo.LOGGER.severe("Received data on channel not registered. (" + socket.socket().getInetAddress().getHostAddress() + ").");
-            return ;
+            return;
         }
         try
         {
@@ -119,7 +127,7 @@ public class NetworkManager
             if (socket.read(byteBuffer) == -1)
             {
                 this.disconnect(playerConnection, null);
-                return ;
+                return;
             }
             PacketSerializer packetSerializer = new PacketSerializer(new ByteArrayInputStream(byteBuffer.array()));
             byte[] data;
@@ -133,11 +141,11 @@ public class NetworkManager
                 for (int i = 0; i < s; i++)
                     data[i] = packetSerializer.readByte();
                 if (data.length == 0)
-                    return ;
+                    return;
             }
             catch (EOFException ignored)
             {
-                return ;
+                return;
             }
             size -= packetSerializer.available();
             ByteBuffer tmp = ByteBuffer.allocate(NetworkManager.MAX_BUFFER_SIZE);
@@ -151,9 +159,9 @@ public class NetworkManager
             Class<? extends PacketIn> packetInClass = playerConnection.getProtocol().getPacketInById(packetId, playerConnection.getStatus());
             if (packetInClass == null)
             {
-                Limbo.LOGGER.warning("Received unknown packet " + packetId + " (0x" + (char)(packetId / 16 > 9 ? packetId / 16 + 'A' - 10 : packetId / 16 + '0') + "" + (char)(packetId % 16 > 9 ? packetId % 16 + 'A' - 10 : packetId % 16 + '0') + ").");
+                Limbo.LOGGER.warning("Received unknown packet " + packetId + " (0x" + (char) (packetId / 16 > 9 ? packetId / 16 + 'A' - 10 : packetId / 16 + '0') + "" + (char) (packetId % 16 > 9 ? packetId % 16 + 'A' - 10 : packetId % 16 + '0') + ").");
                 this.disconnect(playerConnection, "Unknown packet " + packetId);
-                return ;
+                return;
             }
 
             PacketIn packetIn = packetInClass.newInstance();
@@ -177,7 +185,7 @@ public class NetworkManager
             if (id == -1)
             {
                 Limbo.LOGGER.warning("Sending unknown packet " + packetOut.getClass().getSimpleName());
-                return ;
+                return;
             }
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             PacketSerializer packetSerializer = new PacketSerializer(stream);

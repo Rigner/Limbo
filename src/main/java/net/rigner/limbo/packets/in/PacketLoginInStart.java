@@ -2,8 +2,8 @@ package net.rigner.limbo.packets.in;
 
 import net.rigner.limbo.Limbo;
 import net.rigner.limbo.NetworkManager;
-import net.rigner.limbo.packets.PacketSerializer;
 import net.rigner.limbo.PlayerConnection;
+import net.rigner.limbo.packets.PacketSerializer;
 import net.rigner.limbo.packets.Status;
 import net.rigner.limbo.packets.out.PacketLoginOutSuccess;
 import net.rigner.limbo.world.Chunk;
@@ -31,7 +31,7 @@ public class PacketLoginInStart implements PacketIn
         playerConnection.setUserName(this.userName);
         networkManager.sendPacket(playerConnection, new PacketLoginOutSuccess(playerConnection.getUuid(), this.userName));
         playerConnection.setStatus(Status.PLAY);
-        playerConnection.getProtocol().sendJoinGame(playerConnection, 1, networkManager.getLimboConfiguration().getGameMode(), networkManager.getLimboConfiguration().getDimension(), (byte)0, (byte)1, "default", networkManager.getLimboConfiguration().isReducedDebugInfo());
+        playerConnection.getProtocol().sendJoinGame(playerConnection, 1, networkManager.getLimboConfiguration().getGameMode(), networkManager.getLimboConfiguration().getDimension(), (byte) 0, (byte) 1, "default", networkManager.getLimboConfiguration().isReducedDebugInfo());
         new Thread(() ->
         {
             try

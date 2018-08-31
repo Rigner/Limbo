@@ -15,13 +15,15 @@ public class Schematic
         short width = nbt.get("Width").toShortTag().getValue();
         short length = nbt.get("Length").toShortTag().getValue();
         short height = nbt.get("Height").toShortTag().getValue();
-        byte[] blocks = ((ByteArrayTag)nbt.get("Blocks")).getBytes();
-        byte[] blocksData = ((ByteArrayTag)nbt.get("Data")).getBytes();
+        byte[] blocks = ((ByteArrayTag) nbt.get("Blocks")).getBytes();
+        byte[] blocksData = ((ByteArrayTag) nbt.get("Data")).getBytes();
         World world = new World(width, length);
         int y;
         int z;
-        for (int x = 0; x < width; x++) {
-            for (y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++)
+        {
+            for (y = 0; y < height; y++)
+            {
                 for (z = 0; z < length; z++)
                 {
                     int blockIndex = y * width * length + z * width + x;
@@ -31,7 +33,7 @@ public class Schematic
         }
         for (NamedTag tag : nbt.get("TileEntities").toListTag().getTags())
         {
-            SignTileEntity sign = new SignTileEntity((CompoundTag)tag);
+            SignTileEntity sign = new SignTileEntity((CompoundTag) tag);
             world.getChunkAtWorldPos(sign.getBlockPosition().getX(), sign.getBlockPosition().getZ()).addTileEntity(sign);
         }
         return world;
