@@ -1,3 +1,5 @@
+_This project is no longer maintained. A C++ recode of this project is work in progress, with 1.7.2-1.21 support, I will try to finish it when I can_
+
 # Limbo
 
 This project is a simple Minecraft Limbo server, supporting multiple protocols, without any external library.
